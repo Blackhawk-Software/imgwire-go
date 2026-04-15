@@ -531,3 +531,7 @@ make ci
 - `openapi/sdk.openapi.json` is the SDK-shaped contract emitted by `@imgwire/codegen-core`.
 - Handwritten Go code lives outside `generated/`.
 - Yarn Classic is used for codegen tooling, and Go modules are used for runtime dependency management.
+
+## License
+
+MIT. See [LICENSE](./LICENSE).
