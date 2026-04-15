@@ -4,6 +4,8 @@
 
 Use it in backend services, workers, and jobs to authenticate with a Server API Key, upload files from Go readers, file handles, or byte slices, manage server-side resources, and call the imgwire API without hand-writing request plumbing.
 
+Image values returned from the handwritten resource layer also expose a URL builder so you can generate imgwire transformation URLs directly from API results.
+
 ## Installation
 
 ```bash
@@ -40,6 +42,13 @@ func main() {
 	}
 
 	fmt.Println(image.Id)
+	width := 300
+	url, err := image.URL(imgwire.ImageURLOptions{Width: &width})
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(url)
 }
 ```
 
@@ -76,6 +85,8 @@ The current handwritten SDK surface exposes these grouped resources:
 ### `client.Images`
 
 Image operations and upload workflows.
+
+Image-returning methods return an extended image type with `URL(...)` so your backend can generate transformation URLs without rebuilding imgwire’s query rules itself.
 
 Supported methods:
 
@@ -138,6 +149,18 @@ if err != nil {
 }
 
 fmt.Println(image.Id)
+
+width := 300
+height := 300
+url, err := image.URL(imgwire.ImageURLOptions{
+	Width:  &width,
+	Height: &height,
+})
+if err != nil {
+	panic(err)
+}
+
+fmt.Println(url)
 ```
 
 Create a standard upload intent directly:
@@ -170,6 +193,16 @@ image, err := client.Images.Upload(context.Background(), file, imgwire.UploadInp
 if err != nil {
 	panic(err)
 }
+
+preset := imgwire.PresetThumbnail
+thumbnailURL, err := image.URL(imgwire.ImageURLOptions{
+	Preset: &preset,
+})
+if err != nil {
+	panic(err)
+}
+
+fmt.Println(thumbnailURL)
 ```
 
 Upload from a byte slice:
@@ -182,6 +215,95 @@ image, err := client.Images.Upload(context.Background(), imageBytes, imgwire.Upl
 if err != nil {
 	panic(err)
 }
+```
+
+### Image URL Transformations
+
+Image-returning endpoints return image values with a `URL(...)` helper:
+
+```go
+image, err := client.Images.Retrieve(context.Background(), "img_123")
+if err != nil {
+	panic(err)
+}
+
+preset := imgwire.PresetThumbnail
+background := "#ffffff"
+width := 300
+height := 300
+rotate := 90
+
+thumbnailURL, err := image.URL(imgwire.ImageURLOptions{
+	Preset:     &preset,
+	Background: &background,
+	Width:      &width,
+	Height:     &height,
+	Rotate:     &rotate,
+})
+if err != nil {
+	panic(err)
+}
+
+fmt.Println(thumbnailURL)
+```
+
+Supported transformation options:
+
+| Option field | Output rule | Description |
+| --- | --- | --- |
+| `Preset` | path suffix | Applies a named preset such as `thumbnail`, `small`, `medium`, or `large`. |
+| `Width` | `width` | Sets output width. |
+| `Height` | `height` | Sets output height. |
+| `MinWidth` | `min-width` | Sets minimum width constraint. |
+| `MinHeight` | `min-height` | Sets minimum height constraint. |
+| `ResizingType` | `resizing_type` | Controls resize strategy such as `fit`, `fill`, `fill-down`, `force`, or `auto`. |
+| `Zoom` | `zoom` | Applies zoom scaling. |
+| `DPR` | `dpr` | Sets device pixel ratio scaling. |
+| `Crop` | `crop` | Applies crop dimensions and optional gravity. |
+| `Gravity` | `gravity` | Sets crop/focus gravity. |
+| `Padding` | `padding` | Adds padding using 1 to 4 numeric values. |
+| `Extend` | `extend` | Enables extension behavior with optional gravity. |
+| `ExtendAspectRatio` | `extend_aspect_ratio` | Extends to preserve aspect ratio with optional gravity. |
+| `Enlarge` | `enlarge` | Allows enlarging beyond the original size when `true`. |
+| `Background` | `background` | Sets background color using hex or `r:g:b`. |
+| `Rotate` | `rotate` | Rotates by `0`, `90`, `180`, `270`, or `360`. |
+| `Flip` | `flip` | Flips horizontally/vertically using a `true:false`-style value. |
+| `Blur` | `blur` | Applies blur. |
+| `Sharpen` | `sharpen` | Applies sharpening. |
+| `Pixelate` | `pixelate` | Applies pixelation. |
+| `Format` | `format` | Changes output format such as `jpg`, `png`, `avif`, `gif`, or `webp`. |
+| `Quality` | `quality` | Sets output quality from `0` to `100`. |
+| `StripMetadata` | `strip_metadata` | Strips metadata when `true`. |
+| `StripColorProfile` | `strip_color_profile` | Strips embedded color profiles when `true`. |
+| `KeepCopyright` | `keep_copyright` | Preserves copyright metadata when `true`. |
+
+Examples:
+
+```go
+background := "#ffffff"
+width := 150
+height := 150
+url, _ := image.URL(imgwire.ImageURLOptions{
+	Background: &background,
+	Width:      &width,
+	Height:     &height,
+})
+```
+
+```go
+stripMetadata := true
+url, _ := image.URL(imgwire.ImageURLOptions{
+	StripMetadata: &stripMetadata,
+})
+```
+
+```go
+format := imgwire.FormatWEBP
+quality := 80
+url, _ := image.URL(imgwire.ImageURLOptions{
+	Format:  &format,
+	Quality: &quality,
+})
 ```
 
 Create an upload token:
@@ -357,6 +479,7 @@ fmt.Println(datasets, stats)
 - List endpoints exposed through handwritten wrappers return `Page[T]` values with `Data` and parsed pagination metadata.
 - `ListPages()` yields paginated result objects across pages through an iterator with `Next()`, `Page()`, and `Err()`.
 - `ListAll()` yields individual items across every page through an iterator with `Next()`, `Item()`, and `Err()`.
+- Image-returning methods return handwritten image values with `URL(...)` for transformation URL generation.
 - Upload helpers return the created image record after the presigned upload completes.
 
 ## Development
