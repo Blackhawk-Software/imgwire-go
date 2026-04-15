@@ -5,6 +5,7 @@ import (
 	nethttp "net/http"
 
 	generated "github.com/imgwire/imgwire-go/generated"
+	"github.com/imgwire/imgwire-go/images"
 	"github.com/imgwire/imgwire-go/pagination"
 	"github.com/imgwire/imgwire-go/uploads"
 )
@@ -28,7 +29,7 @@ func (r *ImagesResource) List(
 	ctx context.Context,
 	page int,
 	limit int,
-) (pagination.Page[generated.ImageSchema], error) {
+) (pagination.Page[images.ImgwireImage], error) {
 	request := r.api.ImagesList(ctx)
 	if page > 0 {
 		request = request.Page(int32(page))
@@ -39,11 +40,16 @@ func (r *ImagesResource) List(
 
 	data, response, err := request.Execute()
 	if err != nil {
-		return pagination.Page[generated.ImageSchema]{}, err
+		return pagination.Page[images.ImgwireImage]{}, err
 	}
 
-	return pagination.Page[generated.ImageSchema]{
-		Data:       data,
+	extended := make([]images.ImgwireImage, 0, len(data))
+	for _, image := range data {
+		extended = append(extended, images.ExtendImage(image))
+	}
+
+	return pagination.Page[images.ImgwireImage]{
+		Data:       extended,
 		Pagination: pagination.ParseHeaders(response.Header),
 	}, nil
 }
@@ -52,7 +58,7 @@ func (r *ImagesResource) ListPages(
 	ctx context.Context,
 	page int,
 	limit int,
-) *pagination.PageIterator[generated.ImageSchema] {
+) *pagination.PageIterator[images.ImgwireImage] {
 	return pagination.NewPageIterator(ctx, page, limit, r.List)
 }
 
@@ -60,30 +66,36 @@ func (r *ImagesResource) ListAll(
 	ctx context.Context,
 	page int,
 	limit int,
-) *pagination.ItemIterator[generated.ImageSchema] {
+) *pagination.ItemIterator[images.ImgwireImage] {
 	return pagination.NewItemIterator(r.ListPages(ctx, page, limit))
 }
 
 func (r *ImagesResource) Retrieve(
 	ctx context.Context,
 	imageID string,
-) (*generated.ImageSchema, error) {
+) (*images.ImgwireImage, error) {
 	value, _, err := r.api.ImagesRetrieve(ctx, imageID).Execute()
-	return value, err
+	if err != nil {
+		return nil, err
+	}
+	return images.ExtendImagePtr(value), nil
 }
 
 func (r *ImagesResource) Create(
 	ctx context.Context,
 	input generated.StandardUploadCreateSchema,
 	uploadToken string,
-) (*generated.StandardUploadResponseSchema, error) {
+) (*images.StandardUploadResponse, error) {
 	request := r.api.ImagesCreate(ctx).
 		StandardUploadCreateSchema(input)
 	if uploadToken != "" {
 		request = request.UploadToken(uploadToken)
 	}
 	value, _, err := request.Execute()
-	return value, err
+	if err != nil {
+		return nil, err
+	}
+	return images.ExtendStandardUploadResponse(value), nil
 }
 
 func (r *ImagesResource) CreateUploadToken(
@@ -133,7 +145,7 @@ func (r *ImagesResource) Upload(
 	ctx context.Context,
 	file any,
 	inputs ...uploads.CreateInput,
-) (*generated.ImageSchema, error) {
+) (*images.ImgwireImage, error) {
 	var input uploads.CreateInput
 	if len(inputs) > 0 {
 		input = inputs[0]
@@ -176,10 +188,11 @@ func (r *ImagesResource) Upload(
 		return nil, err
 	}
 
-	err = uploads.Put(ctx, r.httpClient, created.UploadUrl, resolved)
+	err = uploads.Put(ctx, r.httpClient, created.UploadURL, resolved)
 	if err != nil {
 		return nil, err
 	}
 
-	return &created.Image, nil
+	image := created.Image
+	return &image, nil
 }

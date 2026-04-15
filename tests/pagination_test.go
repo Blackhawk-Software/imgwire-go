@@ -43,6 +43,14 @@ func TestImagesListParsesPaginationHeaders(t *testing.T) {
 	if len(page.Data) != 1 {
 		t.Fatalf("unexpected page size %d", len(page.Data))
 	}
+	width := 200
+	url, err := page.Data[0].URL(imgwire.ImageURLOptions{Width: &width})
+	if err != nil {
+		t.Fatalf("build image url from listed image: %v", err)
+	}
+	if url != "https://cdn.example.com/1?width=200" {
+		t.Fatalf("unexpected transformed url %q", url)
+	}
 }
 
 func TestImagesListAllIteratesAcrossPages(t *testing.T) {

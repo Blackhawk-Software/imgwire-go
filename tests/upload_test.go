@@ -56,6 +56,18 @@ func TestUploadSupportsByteSlices(t *testing.T) {
 	if uploadedBody != "abc" {
 		t.Fatalf("unexpected uploaded body %q", uploadedBody)
 	}
+	width := 150
+	height := 150
+	url, err := image.URL(imgwire.ImageURLOptions{
+		Width:  &width,
+		Height: &height,
+	})
+	if err != nil {
+		t.Fatalf("build image url from uploaded image: %v", err)
+	}
+	if url != "https://cdn.example.com/1?height=150&width=150" {
+		t.Fatalf("unexpected transformed url %q", url)
+	}
 }
 
 func TestUploadSupportsFiles(t *testing.T) {
