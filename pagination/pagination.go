@@ -31,7 +31,7 @@ func ParseHeaders(headers http.Header) Metadata {
 
 func parseHeaderInt(headers http.Header, key string) int {
 	value := strings.TrimSpace(headers.Get(key))
-	if value == "" {
+	if isMissingPaginationValue(value) {
 		return 0
 	}
 	parsed, err := strconv.Atoi(value)
@@ -43,7 +43,7 @@ func parseHeaderInt(headers http.Header, key string) int {
 
 func parseOptionalHeaderInt(headers http.Header, key string) *int {
 	value := strings.TrimSpace(headers.Get(key))
-	if value == "" || strings.EqualFold(value, "null") {
+	if isMissingPaginationValue(value) {
 		return nil
 	}
 	parsed, err := strconv.Atoi(value)
@@ -51,4 +51,10 @@ func parseOptionalHeaderInt(headers http.Header, key string) *int {
 		return nil
 	}
 	return &parsed
+}
+
+func isMissingPaginationValue(value string) bool {
+	return value == "" ||
+		strings.EqualFold(value, "null") ||
+		strings.EqualFold(value, "none")
 }

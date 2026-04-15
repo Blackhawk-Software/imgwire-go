@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	imgwire "github.com/imgwire/imgwire-go"
+	"github.com/imgwire/imgwire-go/pagination"
 )
 
 func TestImagesListParsesPaginationHeaders(t *testing.T) {
@@ -90,5 +91,61 @@ func TestImagesListAllIteratesAcrossPages(t *testing.T) {
 	}
 	if len(ids) != 2 || ids[0] != "img_1" || ids[1] != "img_2" {
 		t.Fatalf("unexpected ids %#v", ids)
+	}
+}
+
+func TestPaginationParserTreatsNullLikeMissing(t *testing.T) {
+	headers := http.Header{
+		"X-Total-Count": []string{"10"},
+		"X-Page":        []string{"1"},
+		"X-Limit":       []string{"25"},
+		"X-Prev-Page":   []string{"null"},
+		"X-Next-Page":   []string{""},
+	}
+
+	parsed := pagination.ParseHeaders(headers)
+
+	if parsed.TotalCount != 10 {
+		t.Fatalf("unexpected total count %d", parsed.TotalCount)
+	}
+	if parsed.Page != 1 {
+		t.Fatalf("unexpected page %d", parsed.Page)
+	}
+	if parsed.Limit != 25 {
+		t.Fatalf("unexpected limit %d", parsed.Limit)
+	}
+	if parsed.PrevPage != nil {
+		t.Fatalf("expected nil prev page, got %#v", parsed.PrevPage)
+	}
+	if parsed.NextPage != nil {
+		t.Fatalf("expected nil next page, got %#v", parsed.NextPage)
+	}
+}
+
+func TestPaginationParserTreatsNoneLikeMissing(t *testing.T) {
+	headers := http.Header{
+		"X-Total-Count": []string{"none"},
+		"X-Page":        []string{"None"},
+		"X-Limit":       []string{"  none  "},
+		"X-Prev-Page":   []string{"NONE"},
+		"X-Next-Page":   []string{" none "},
+	}
+
+	parsed := pagination.ParseHeaders(headers)
+
+	if parsed.TotalCount != 0 {
+		t.Fatalf("expected zero total count, got %d", parsed.TotalCount)
+	}
+	if parsed.Page != 0 {
+		t.Fatalf("expected zero page, got %d", parsed.Page)
+	}
+	if parsed.Limit != 0 {
+		t.Fatalf("expected zero limit, got %d", parsed.Limit)
+	}
+	if parsed.PrevPage != nil {
+		t.Fatalf("expected nil prev page, got %#v", parsed.PrevPage)
+	}
+	if parsed.NextPage != nil {
+		t.Fatalf("expected nil next page, got %#v", parsed.NextPage)
 	}
 }
