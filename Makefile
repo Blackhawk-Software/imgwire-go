@@ -4,7 +4,7 @@ NODE ?= yarn
 GO ?= go
 GOFMT ?= gofmt
 
-.PHONY: help install install-js generate verify-generated test build format format-go format-js clean ci
+.PHONY: help install install-js generate verify-generated test build format format-go format-js release-set clean ci
 
 help:
 	@printf "%s\n" \
@@ -18,6 +18,7 @@ help:
 		"  make format             Run Go and repo metadata/doc formatting" \
 		"  make format-go          Run gofmt on handwritten Go files" \
 		"  make format-js          Run Prettier for repo metadata and docs" \
+		"  make release-set VERSION=X.Y.Z  Set the repo tooling version manually" \
 		"  make clean              Remove local build artifacts and temporary caches" \
 		"  make ci                 Run generation verification, tests, and build"
 
@@ -47,6 +48,10 @@ format-go:
 
 format-js:
 	$(NODE) format
+
+release-set:
+	@test -n "$(VERSION)" || (echo "VERSION is required. Usage: make release-set VERSION=0.2.0" && exit 1)
+	$(NODE) release:set-version $(VERSION)
 
 clean:
 	rm -rf /tmp/imgwire-go-buildcache /tmp/imgwire-go-tmp
