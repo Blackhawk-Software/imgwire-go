@@ -1,5 +1,8 @@
 # `imgwire-go`
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/Blackhawk-Software/imgwire-go.svg)](https://pkg.go.dev/github.com/Blackhawk-Software/imgwire-go)
+[![CI](https://github.com/Blackhawk-Software/imgwire-go/actions/workflows/ci.yml/badge.svg)](https://github.com/Blackhawk-Software/imgwire-go/actions/workflows/ci.yml)
+
 `imgwire-go` is the server-side Go SDK for the imgwire API.
 
 Use it in backend services, workers, and jobs to authenticate with a Server API Key, upload files from Go readers, file handles, or byte slices, manage server-side resources, and call the imgwire API without hand-writing request plumbing.
@@ -9,7 +12,7 @@ Image values returned from the handwritten resource layer also expose a URL buil
 ## Installation
 
 ```bash
-go get github.com/imgwire/imgwire-go
+go get github.com/Blackhawk-Software/imgwire-go
 ```
 
 ## Quick Start
@@ -22,7 +25,7 @@ import (
 	"fmt"
 	"os"
 
-	imgwire "github.com/imgwire/imgwire-go"
+	imgwire "github.com/Blackhawk-Software/imgwire-go"
 )
 
 func main() {
@@ -249,33 +252,33 @@ fmt.Println(thumbnailURL)
 
 Supported transformation options:
 
-| Option field | Output rule | Description |
-| --- | --- | --- |
-| `Preset` | path suffix | Applies a named preset such as `thumbnail`, `small`, `medium`, or `large`. |
-| `Width` | `width` | Sets output width. |
-| `Height` | `height` | Sets output height. |
-| `MinWidth` | `min-width` | Sets minimum width constraint. |
-| `MinHeight` | `min-height` | Sets minimum height constraint. |
-| `ResizingType` | `resizing_type` | Controls resize strategy such as `fit`, `fill`, `fill-down`, `force`, or `auto`. |
-| `Zoom` | `zoom` | Applies zoom scaling. |
-| `DPR` | `dpr` | Sets device pixel ratio scaling. |
-| `Crop` | `crop` | Applies crop dimensions and optional gravity. |
-| `Gravity` | `gravity` | Sets crop/focus gravity. |
-| `Padding` | `padding` | Adds padding using 1 to 4 numeric values. |
-| `Extend` | `extend` | Enables extension behavior with optional gravity. |
-| `ExtendAspectRatio` | `extend_aspect_ratio` | Extends to preserve aspect ratio with optional gravity. |
-| `Enlarge` | `enlarge` | Allows enlarging beyond the original size when `true`. |
-| `Background` | `background` | Sets background color using hex or `r:g:b`. |
-| `Rotate` | `rotate` | Rotates by `0`, `90`, `180`, `270`, or `360`. |
-| `Flip` | `flip` | Flips horizontally/vertically using a `true:false`-style value. |
-| `Blur` | `blur` | Applies blur. |
-| `Sharpen` | `sharpen` | Applies sharpening. |
-| `Pixelate` | `pixelate` | Applies pixelation. |
-| `Format` | `format` | Changes output format such as `jpg`, `png`, `avif`, `gif`, or `webp`. |
-| `Quality` | `quality` | Sets output quality from `0` to `100`. |
-| `StripMetadata` | `strip_metadata` | Strips metadata when `true`. |
-| `StripColorProfile` | `strip_color_profile` | Strips embedded color profiles when `true`. |
-| `KeepCopyright` | `keep_copyright` | Preserves copyright metadata when `true`. |
+| Option field        | Output rule           | Description                                                                      |
+| ------------------- | --------------------- | -------------------------------------------------------------------------------- |
+| `Preset`            | path suffix           | Applies a named preset such as `thumbnail`, `small`, `medium`, or `large`.       |
+| `Width`             | `width`               | Sets output width.                                                               |
+| `Height`            | `height`              | Sets output height.                                                              |
+| `MinWidth`          | `min-width`           | Sets minimum width constraint.                                                   |
+| `MinHeight`         | `min-height`          | Sets minimum height constraint.                                                  |
+| `ResizingType`      | `resizing_type`       | Controls resize strategy such as `fit`, `fill`, `fill-down`, `force`, or `auto`. |
+| `Zoom`              | `zoom`                | Applies zoom scaling.                                                            |
+| `DPR`               | `dpr`                 | Sets device pixel ratio scaling.                                                 |
+| `Crop`              | `crop`                | Applies crop dimensions and optional gravity.                                    |
+| `Gravity`           | `gravity`             | Sets crop/focus gravity.                                                         |
+| `Padding`           | `padding`             | Adds padding using 1 to 4 numeric values.                                        |
+| `Extend`            | `extend`              | Enables extension behavior with optional gravity.                                |
+| `ExtendAspectRatio` | `extend_aspect_ratio` | Extends to preserve aspect ratio with optional gravity.                          |
+| `Enlarge`           | `enlarge`             | Allows enlarging beyond the original size when `true`.                           |
+| `Background`        | `background`          | Sets background color using hex or `r:g:b`.                                      |
+| `Rotate`            | `rotate`              | Rotates by `0`, `90`, `180`, `270`, or `360`.                                    |
+| `Flip`              | `flip`                | Flips horizontally/vertically using a `true:false`-style value.                  |
+| `Blur`              | `blur`                | Applies blur.                                                                    |
+| `Sharpen`           | `sharpen`             | Applies sharpening.                                                              |
+| `Pixelate`          | `pixelate`            | Applies pixelation.                                                              |
+| `Format`            | `format`              | Changes output format such as `jpg`, `png`, `avif`, `gif`, or `webp`.            |
+| `Quality`           | `quality`             | Sets output quality from `0` to `100`.                                           |
+| `StripMetadata`     | `strip_metadata`      | Strips metadata when `true`.                                                     |
+| `StripColorProfile` | `strip_color_profile` | Strips embedded color profiles when `true`.                                      |
+| `KeepCopyright`     | `keep_copyright`      | Preserves copyright metadata when `true`.                                        |
 
 Examples:
 

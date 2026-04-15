@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"testing"
 
-	imgwire "github.com/imgwire/imgwire-go"
+	imgwire "github.com/Blackhawk-Software/imgwire-go"
 )
 
 func TestClientSetsDefaultHeaders(t *testing.T) {

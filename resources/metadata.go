@@ -3,7 +3,7 @@ package resources
 import (
 	"fmt"
 
-	generated "github.com/imgwire/imgwire-go/generated"
+	generated "github.com/Blackhawk-Software/imgwire-go/generated"
 )
 
 func toCustomMetadata(input map[string]any) (map[string]generated.CustomMetadataValue, error) {

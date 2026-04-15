@@ -3,8 +3,8 @@ package resources
 import (
 	"context"
 
-	generated "github.com/imgwire/imgwire-go/generated"
-	"github.com/imgwire/imgwire-go/pagination"
+	generated "github.com/Blackhawk-Software/imgwire-go/generated"
+	"github.com/Blackhawk-Software/imgwire-go/pagination"
 )
 
 type CorsOriginsResource struct {

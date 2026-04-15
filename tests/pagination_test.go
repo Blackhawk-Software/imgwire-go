@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"testing"
 
-	imgwire "github.com/imgwire/imgwire-go"
-	"github.com/imgwire/imgwire-go/pagination"
+	imgwire "github.com/Blackhawk-Software/imgwire-go"
+	"github.com/Blackhawk-Software/imgwire-go/pagination"
 )
 
 func TestImagesListParsesPaginationHeaders(t *testing.T) {

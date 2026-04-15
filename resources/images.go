@@ -4,10 +4,10 @@ import (
 	"context"
 	nethttp "net/http"
 
-	generated "github.com/imgwire/imgwire-go/generated"
-	"github.com/imgwire/imgwire-go/images"
-	"github.com/imgwire/imgwire-go/pagination"
-	"github.com/imgwire/imgwire-go/uploads"
+	generated "github.com/Blackhawk-Software/imgwire-go/generated"
+	"github.com/Blackhawk-Software/imgwire-go/images"
+	"github.com/Blackhawk-Software/imgwire-go/pagination"
+	"github.com/Blackhawk-Software/imgwire-go/uploads"
 )
 
 type ImagesResource struct {

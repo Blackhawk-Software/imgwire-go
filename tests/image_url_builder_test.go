@@ -3,8 +3,8 @@ package tests
 import (
 	"testing"
 
-	imgwire "github.com/imgwire/imgwire-go"
-	generated "github.com/imgwire/imgwire-go/generated"
+	imgwire "github.com/Blackhawk-Software/imgwire-go"
+	generated "github.com/Blackhawk-Software/imgwire-go/generated"
 )
 
 func makeImage() imgwire.Image {

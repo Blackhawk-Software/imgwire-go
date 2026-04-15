@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	generated "github.com/imgwire/imgwire-go/generated"
+	generated "github.com/Blackhawk-Software/imgwire-go/generated"
 )
 
 type MetricsResource struct {

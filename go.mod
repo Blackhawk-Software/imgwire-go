@@ -1,3 +1,3 @@
-module github.com/imgwire/imgwire-go
+module github.com/Blackhawk-Software/imgwire-go
 
 go 1.20

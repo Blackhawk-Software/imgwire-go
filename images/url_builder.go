@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	generated "github.com/imgwire/imgwire-go/generated"
+	generated "github.com/Blackhawk-Software/imgwire-go/generated"
 )
 
 type ImgwireImage struct {

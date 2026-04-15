@@ -1,11 +1,11 @@
 package imgwire
 
 import (
-	"github.com/imgwire/imgwire-go/client"
-	generated "github.com/imgwire/imgwire-go/generated"
-	"github.com/imgwire/imgwire-go/images"
-	"github.com/imgwire/imgwire-go/resources"
-	"github.com/imgwire/imgwire-go/uploads"
+	"github.com/Blackhawk-Software/imgwire-go/client"
+	generated "github.com/Blackhawk-Software/imgwire-go/generated"
+	"github.com/Blackhawk-Software/imgwire-go/images"
+	"github.com/Blackhawk-Software/imgwire-go/resources"
+	"github.com/Blackhawk-Software/imgwire-go/uploads"
 )
 
 type Client = client.Client

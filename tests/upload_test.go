@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	imgwire "github.com/imgwire/imgwire-go"
+	imgwire "github.com/Blackhawk-Software/imgwire-go"
 )
 
 func TestUploadSupportsByteSlices(t *testing.T) {

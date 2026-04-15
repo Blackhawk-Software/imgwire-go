@@ -3,9 +3,9 @@ package client
 import (
 	nethttp "net/http"
 
-	generated "github.com/imgwire/imgwire-go/generated"
-	imgwirehttp "github.com/imgwire/imgwire-go/http"
-	"github.com/imgwire/imgwire-go/resources"
+	generated "github.com/Blackhawk-Software/imgwire-go/generated"
+	imgwirehttp "github.com/Blackhawk-Software/imgwire-go/http"
+	"github.com/Blackhawk-Software/imgwire-go/resources"
 )
 
 type Client struct {

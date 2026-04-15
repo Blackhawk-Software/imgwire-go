@@ -3,7 +3,7 @@ package resources
 import (
 	"context"
 
-	generated "github.com/imgwire/imgwire-go/generated"
+	generated "github.com/Blackhawk-Software/imgwire-go/generated"
 )
 
 type CustomDomainResource struct {
