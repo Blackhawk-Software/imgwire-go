@@ -1,0 +1,17 @@
+node_modules/
+
+# Go build and test artifacts
+*.test
+*.out
+coverage.out
+bin/
+
+# Temporary Go caches used during local validation
+.gocache/
+.gotmp/
+
+# OpenAPI/codegen scratch files
+openapi/.sdk.openapi.generator.json
+
+# OS/editor noise
+.DS_Store
