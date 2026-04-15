@@ -1,6 +1,9 @@
 name: Release
 
 on:
+  push:
+    tags:
+      - "v*"
   workflow_dispatch:
 
 jobs:
@@ -21,8 +24,15 @@ jobs:
       - name: Install tooling
         run: yarn install --frozen-lockfile
 
+      - name: Verify release tag matches package version
+        if: startsWith(github.ref, 'refs/tags/')
+        run: yarn release:verify-tag "${GITHUB_REF_NAME}"
+
       - name: Verify generated artifacts
         run: yarn verify-generated
+
+      - name: Run Go tests
+        run: go test ./...
 
       - name: Build module
         run: go build ./...
