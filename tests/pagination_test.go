@@ -13,7 +13,7 @@ func TestImagesListParsesPaginationHeaders(t *testing.T) {
 	httpClient := &http.Client{Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
 		return jsonResponse(
 			http.StatusOK,
-			`[{"id":"img_1","cdn_url":"https://cdn.example.com/1","created_at":"2026-01-01T00:00:00Z","custom_metadata":{},"deleted_at":null,"environment_id":null,"exif_data":{},"extension":"jpg","hash_sha256":null,"height":1,"idempotency_key":null,"mime_type":"image/jpeg","original_filename":"one.jpg","processed_metadata_at":null,"purpose":null,"size_bytes":1,"status":"READY","updated_at":"2026-01-01T00:00:00Z","upload_token_id":null,"width":1}]`,
+			`[{"can_upload":true,"id":"img_1","cdn_url":"https://cdn.example.com/1","created_at":"2026-01-01T00:00:00Z","custom_metadata":{},"deleted_at":null,"environment_id":null,"exif_data":{},"extension":"jpg","hash_sha256":null,"height":1,"idempotency_key":null,"is_directly_deliverable":true,"mime_type":"image/jpeg","original_filename":"one.jpg","processed_metadata_at":null,"purpose":null,"size_bytes":1,"status":"READY","updated_at":"2026-01-01T00:00:00Z","upload_token_id":null,"width":1}]`,
 			map[string]string{
 				"X-Total-Count": "3",
 				"X-Page":        "1",
@@ -59,7 +59,7 @@ func TestImagesListAllIteratesAcrossPages(t *testing.T) {
 		case "", "1":
 			return jsonResponse(
 				http.StatusOK,
-				`[{"id":"img_1","cdn_url":"https://cdn.example.com/1","created_at":"2026-01-01T00:00:00Z","custom_metadata":{},"deleted_at":null,"environment_id":null,"exif_data":{},"extension":"jpg","hash_sha256":null,"height":1,"idempotency_key":null,"mime_type":"image/jpeg","original_filename":"one.jpg","processed_metadata_at":null,"purpose":null,"size_bytes":1,"status":"READY","updated_at":"2026-01-01T00:00:00Z","upload_token_id":null,"width":1}]`,
+				`[{"can_upload":true,"id":"img_1","cdn_url":"https://cdn.example.com/1","created_at":"2026-01-01T00:00:00Z","custom_metadata":{},"deleted_at":null,"environment_id":null,"exif_data":{},"extension":"jpg","hash_sha256":null,"height":1,"idempotency_key":null,"is_directly_deliverable":true,"mime_type":"image/jpeg","original_filename":"one.jpg","processed_metadata_at":null,"purpose":null,"size_bytes":1,"status":"READY","updated_at":"2026-01-01T00:00:00Z","upload_token_id":null,"width":1}]`,
 				map[string]string{
 					"X-Total-Count": "2",
 					"X-Page":        "1",
@@ -70,7 +70,7 @@ func TestImagesListAllIteratesAcrossPages(t *testing.T) {
 		case "2":
 			return jsonResponse(
 				http.StatusOK,
-				`[{"id":"img_2","cdn_url":"https://cdn.example.com/2","created_at":"2026-01-01T00:00:00Z","custom_metadata":{},"deleted_at":null,"environment_id":null,"exif_data":{},"extension":"jpg","hash_sha256":null,"height":1,"idempotency_key":null,"mime_type":"image/jpeg","original_filename":"two.jpg","processed_metadata_at":null,"purpose":null,"size_bytes":1,"status":"READY","updated_at":"2026-01-01T00:00:00Z","upload_token_id":null,"width":1}]`,
+				`[{"can_upload":true,"id":"img_2","cdn_url":"https://cdn.example.com/2","created_at":"2026-01-01T00:00:00Z","custom_metadata":{},"deleted_at":null,"environment_id":null,"exif_data":{},"extension":"jpg","hash_sha256":null,"height":1,"idempotency_key":null,"is_directly_deliverable":true,"mime_type":"image/jpeg","original_filename":"two.jpg","processed_metadata_at":null,"purpose":null,"size_bytes":1,"status":"READY","updated_at":"2026-01-01T00:00:00Z","upload_token_id":null,"width":1}]`,
 				map[string]string{
 					"X-Total-Count": "2",
 					"X-Page":        "2",

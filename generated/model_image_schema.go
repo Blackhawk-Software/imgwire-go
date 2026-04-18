@@ -21,6 +21,7 @@ var _ MappedNullable = &ImageSchema{}
 
 // ImageSchema struct for ImageSchema
 type ImageSchema struct {
+	CanUpload bool `json:"can_upload"`
 	CdnUrl string `json:"cdn_url"`
 	CreatedAt time.Time `json:"created_at"`
 	CustomMetadata map[string]CustomMetadataValue `json:"custom_metadata"`
@@ -32,6 +33,7 @@ type ImageSchema struct {
 	Height int32 `json:"height"`
 	Id string `json:"id"`
 	IdempotencyKey NullableString `json:"idempotency_key"`
+	IsDirectlyDeliverable bool `json:"is_directly_deliverable"`
 	MimeType SupportedMimeType `json:"mime_type"`
 	OriginalFilename string `json:"original_filename"`
 	ProcessedMetadataAt NullableTime `json:"processed_metadata_at"`
@@ -50,8 +52,9 @@ type _ImageSchema ImageSchema
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewImageSchema(cdnUrl string, createdAt time.Time, customMetadata map[string]CustomMetadataValue, deletedAt NullableTime, environmentId NullableString, exifData map[string]interface{}, extension string, hashSha256 NullableString, height int32, id string, idempotencyKey NullableString, mimeType SupportedMimeType, originalFilename string, processedMetadataAt NullableTime, purpose NullableString, sizeBytes int32, status ImageStatus, updatedAt time.Time, uploadTokenId NullableString, width int32) *ImageSchema {
+func NewImageSchema(canUpload bool, cdnUrl string, createdAt time.Time, customMetadata map[string]CustomMetadataValue, deletedAt NullableTime, environmentId NullableString, exifData map[string]interface{}, extension string, hashSha256 NullableString, height int32, id string, idempotencyKey NullableString, isDirectlyDeliverable bool, mimeType SupportedMimeType, originalFilename string, processedMetadataAt NullableTime, purpose NullableString, sizeBytes int32, status ImageStatus, updatedAt time.Time, uploadTokenId NullableString, width int32) *ImageSchema {
 	this := ImageSchema{}
+	this.CanUpload = canUpload
 	this.CdnUrl = cdnUrl
 	this.CreatedAt = createdAt
 	this.CustomMetadata = customMetadata
@@ -63,6 +66,7 @@ func NewImageSchema(cdnUrl string, createdAt time.Time, customMetadata map[strin
 	this.Height = height
 	this.Id = id
 	this.IdempotencyKey = idempotencyKey
+	this.IsDirectlyDeliverable = isDirectlyDeliverable
 	this.MimeType = mimeType
 	this.OriginalFilename = originalFilename
 	this.ProcessedMetadataAt = processedMetadataAt
@@ -81,6 +85,30 @@ func NewImageSchema(cdnUrl string, createdAt time.Time, customMetadata map[strin
 func NewImageSchemaWithDefaults() *ImageSchema {
 	this := ImageSchema{}
 	return &this
+}
+
+// GetCanUpload returns the CanUpload field value
+func (o *ImageSchema) GetCanUpload() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.CanUpload
+}
+
+// GetCanUploadOk returns a tuple with the CanUpload field value
+// and a boolean to check if the value has been set.
+func (o *ImageSchema) GetCanUploadOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.CanUpload, true
+}
+
+// SetCanUpload sets field value
+func (o *ImageSchema) SetCanUpload(v bool) {
+	o.CanUpload = v
 }
 
 // GetCdnUrl returns the CdnUrl field value
@@ -355,6 +383,30 @@ func (o *ImageSchema) SetIdempotencyKey(v string) {
 	o.IdempotencyKey.Set(&v)
 }
 
+// GetIsDirectlyDeliverable returns the IsDirectlyDeliverable field value
+func (o *ImageSchema) GetIsDirectlyDeliverable() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.IsDirectlyDeliverable
+}
+
+// GetIsDirectlyDeliverableOk returns a tuple with the IsDirectlyDeliverable field value
+// and a boolean to check if the value has been set.
+func (o *ImageSchema) GetIsDirectlyDeliverableOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.IsDirectlyDeliverable, true
+}
+
+// SetIsDirectlyDeliverable sets field value
+func (o *ImageSchema) SetIsDirectlyDeliverable(v bool) {
+	o.IsDirectlyDeliverable = v
+}
+
 // GetMimeType returns the MimeType field value
 func (o *ImageSchema) GetMimeType() SupportedMimeType {
 	if o == nil {
@@ -587,6 +639,7 @@ func (o ImageSchema) MarshalJSON() ([]byte, error) {
 
 func (o ImageSchema) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	toSerialize["can_upload"] = o.CanUpload
 	toSerialize["cdn_url"] = o.CdnUrl
 	toSerialize["created_at"] = o.CreatedAt
 	toSerialize["custom_metadata"] = o.CustomMetadata
@@ -598,6 +651,7 @@ func (o ImageSchema) ToMap() (map[string]interface{}, error) {
 	toSerialize["height"] = o.Height
 	toSerialize["id"] = o.Id
 	toSerialize["idempotency_key"] = o.IdempotencyKey.Get()
+	toSerialize["is_directly_deliverable"] = o.IsDirectlyDeliverable
 	toSerialize["mime_type"] = o.MimeType
 	toSerialize["original_filename"] = o.OriginalFilename
 	toSerialize["processed_metadata_at"] = o.ProcessedMetadataAt.Get()
@@ -620,6 +674,7 @@ func (o *ImageSchema) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
+		"can_upload",
 		"cdn_url",
 		"created_at",
 		"custom_metadata",
@@ -631,6 +686,7 @@ func (o *ImageSchema) UnmarshalJSON(data []byte) (err error) {
 		"height",
 		"id",
 		"idempotency_key",
+		"is_directly_deliverable",
 		"mime_type",
 		"original_filename",
 		"processed_metadata_at",
@@ -669,6 +725,7 @@ func (o *ImageSchema) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "can_upload")
 		delete(additionalProperties, "cdn_url")
 		delete(additionalProperties, "created_at")
 		delete(additionalProperties, "custom_metadata")
@@ -680,6 +737,7 @@ func (o *ImageSchema) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "height")
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "idempotency_key")
+		delete(additionalProperties, "is_directly_deliverable")
 		delete(additionalProperties, "mime_type")
 		delete(additionalProperties, "original_filename")
 		delete(additionalProperties, "processed_metadata_at")

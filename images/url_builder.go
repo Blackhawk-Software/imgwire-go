@@ -53,6 +53,7 @@ const (
 )
 
 const (
+	FormatAuto OutputFormat = "auto"
 	FormatJPG  OutputFormat = "jpg"
 	FormatPNG  OutputFormat = "png"
 	FormatAVIF OutputFormat = "avif"
@@ -340,9 +341,8 @@ func appendPresetToPath(path string, preset URLPreset) (string, error) {
 		prefix = path[:slashIndex+1]
 		fileName = path[slashIndex+1:]
 	}
-	dotIndex := strings.LastIndex(fileName, ".")
-	if dotIndex <= 0 || dotIndex == len(fileName)-1 {
-		return "", fmt.Errorf("cannot apply an image URL preset to a CDN url without a file extension")
+	if fileName == "" {
+		return "", fmt.Errorf("cannot apply an image URL preset to an empty CDN url path")
 	}
 	return fmt.Sprintf("%s%s@%s", prefix, fileName, preset), nil
 }
@@ -386,7 +386,7 @@ func parseResizingType(value ResizingType) (transformationEntry, error) {
 
 func parseFormat(value OutputFormat) (transformationEntry, error) {
 	switch value {
-	case FormatJPG, FormatPNG, FormatAVIF, FormatGIF, FormatWEBP:
+	case FormatAuto, FormatJPG, FormatPNG, FormatAVIF, FormatGIF, FormatWEBP:
 		return transformationEntry{canonical: "format", cacheValue: string(value)}, nil
 	default:
 		return transformationEntry{}, invalidTransformation("format")

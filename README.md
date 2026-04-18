@@ -248,6 +248,7 @@ if err != nil {
 }
 
 fmt.Println(thumbnailURL)
+// Example output: https://cdn.example.com/img_123@thumbnail?background=ffffff&height=300&rotate=90&width=300
 ```
 
 Supported transformation options:
@@ -274,7 +275,7 @@ Supported transformation options:
 | `Blur`              | `blur`                | Applies blur.                                                                    |
 | `Sharpen`           | `sharpen`             | Applies sharpening.                                                              |
 | `Pixelate`          | `pixelate`            | Applies pixelation.                                                              |
-| `Format`            | `format`              | Changes output format such as `jpg`, `png`, `avif`, `gif`, or `webp`.            |
+| `Format`            | `format`              | Changes output format such as `auto`, `jpg`, `png`, `avif`, `gif`, or `webp`.    |
 | `Quality`           | `quality`             | Sets output quality from `0` to `100`.                                           |
 | `StripMetadata`     | `strip_metadata`      | Strips metadata when `true`.                                                     |
 | `StripColorProfile` | `strip_color_profile` | Strips embedded color profiles when `true`.                                      |
@@ -301,11 +302,9 @@ url, _ := image.URL(imgwire.ImageURLOptions{
 ```
 
 ```go
-format := imgwire.FormatWEBP
-quality := 80
+format := imgwire.FormatAuto
 url, _ := image.URL(imgwire.ImageURLOptions{
-	Format:  &format,
-	Quality: &quality,
+	Format: &format,
 })
 ```
 

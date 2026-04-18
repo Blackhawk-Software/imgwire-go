@@ -21,19 +21,29 @@ type SupportedMimeType string
 // List of SupportedMimeType
 const (
 	SUPPORTEDMIMETYPE_IMAGE_JPEG SupportedMimeType = "image/jpeg"
+	SUPPORTEDMIMETYPE_IMAGE_JXL SupportedMimeType = "image/jxl"
 	SUPPORTEDMIMETYPE_IMAGE_PNG SupportedMimeType = "image/png"
 	SUPPORTEDMIMETYPE_IMAGE_WEBP SupportedMimeType = "image/webp"
 	SUPPORTEDMIMETYPE_IMAGE_AVIF SupportedMimeType = "image/avif"
 	SUPPORTEDMIMETYPE_IMAGE_GIF SupportedMimeType = "image/gif"
+	SUPPORTEDMIMETYPE_IMAGE_VND_MICROSOFT_ICON SupportedMimeType = "image/vnd.microsoft.icon"
+	SUPPORTEDMIMETYPE_IMAGE_HEIC SupportedMimeType = "image/heic"
+	SUPPORTEDMIMETYPE_IMAGE_BMP SupportedMimeType = "image/bmp"
+	SUPPORTEDMIMETYPE_IMAGE_TIFF SupportedMimeType = "image/tiff"
 )
 
 // All allowed values of SupportedMimeType enum
 var AllowedSupportedMimeTypeEnumValues = []SupportedMimeType{
 	"image/jpeg",
+	"image/jxl",
 	"image/png",
 	"image/webp",
 	"image/avif",
 	"image/gif",
+	"image/vnd.microsoft.icon",
+	"image/heic",
+	"image/bmp",
+	"image/tiff",
 }
 
 func (v *SupportedMimeType) UnmarshalJSON(src []byte) error {

@@ -19,7 +19,7 @@ func TestUploadSupportsByteSlices(t *testing.T) {
 		case "/api/v1/images/standard_upload":
 			return jsonResponse(
 				http.StatusOK,
-				`{"upload_url":"https://uploads.example.com/upload","image":{"id":"img_123","cdn_url":"https://cdn.example.com/1","created_at":"2026-01-01T00:00:00Z","custom_metadata":{},"deleted_at":null,"environment_id":null,"exif_data":{},"extension":"jpg","hash_sha256":null,"height":1,"idempotency_key":null,"mime_type":"image/jpeg","original_filename":"one.jpg","processed_metadata_at":null,"purpose":null,"size_bytes":3,"status":"READY","updated_at":"2026-01-01T00:00:00Z","upload_token_id":null,"width":1}}`,
+				`{"upload_url":"https://uploads.example.com/upload","image":{"can_upload":true,"id":"img_123","cdn_url":"https://cdn.example.com/1","created_at":"2026-01-01T00:00:00Z","custom_metadata":{},"deleted_at":null,"environment_id":null,"exif_data":{},"extension":"jpg","hash_sha256":null,"height":1,"idempotency_key":null,"is_directly_deliverable":true,"mime_type":"image/jpeg","original_filename":"one.jpg","processed_metadata_at":null,"purpose":null,"size_bytes":3,"status":"READY","updated_at":"2026-01-01T00:00:00Z","upload_token_id":null,"width":1}}`,
 				nil,
 			), nil
 		case "/upload":
@@ -89,7 +89,7 @@ func TestUploadSupportsFiles(t *testing.T) {
 		case "/api/v1/images/standard_upload":
 			return jsonResponse(
 				http.StatusOK,
-				`{"upload_url":"https://uploads.example.com/upload","image":{"id":"img_file","cdn_url":"https://cdn.example.com/1","created_at":"2026-01-01T00:00:00Z","custom_metadata":{},"deleted_at":null,"environment_id":null,"exif_data":{},"extension":"jpg","hash_sha256":null,"height":1,"idempotency_key":null,"mime_type":"image/jpeg","original_filename":"one.jpg","processed_metadata_at":null,"purpose":null,"size_bytes":7,"status":"READY","updated_at":"2026-01-01T00:00:00Z","upload_token_id":null,"width":1}}`,
+				`{"upload_url":"https://uploads.example.com/upload","image":{"can_upload":true,"id":"img_file","cdn_url":"https://cdn.example.com/1","created_at":"2026-01-01T00:00:00Z","custom_metadata":{},"deleted_at":null,"environment_id":null,"exif_data":{},"extension":"jpg","hash_sha256":null,"height":1,"idempotency_key":null,"is_directly_deliverable":true,"mime_type":"image/jpeg","original_filename":"one.jpg","processed_metadata_at":null,"purpose":null,"size_bytes":7,"status":"READY","updated_at":"2026-01-01T00:00:00Z","upload_token_id":null,"width":1}}`,
 				nil,
 			), nil
 		case "/upload":

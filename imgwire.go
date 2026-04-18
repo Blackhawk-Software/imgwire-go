@@ -38,6 +38,7 @@ type ResizingType = images.ResizingType
 type OutputFormat = images.OutputFormat
 
 var (
+	FormatAuto        = images.FormatAuto
 	FormatAVIF        = images.FormatAVIF
 	FormatGIF         = images.FormatGIF
 	FormatJPG         = images.FormatJPG

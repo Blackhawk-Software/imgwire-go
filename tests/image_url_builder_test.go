@@ -10,17 +10,19 @@ import (
 func makeImage() imgwire.Image {
 	return imgwire.Image{
 		ImageSchema: generated.ImageSchema{
-			CdnUrl:           "https://cdn.imgwire.dev/example.jpg",
-			CustomMetadata:   map[string]generated.CustomMetadataValue{},
-			ExifData:         map[string]interface{}{},
-			Extension:        "jpg",
-			Height:           100,
-			Id:               "img_1",
-			MimeType:         "image/jpeg",
-			OriginalFilename: "example.jpg",
-			SizeBytes:        100,
-			Status:           "READY",
-			Width:            100,
+			CanUpload:             true,
+			CdnUrl:                "https://cdn.imgwire.dev/example",
+			CustomMetadata:        map[string]generated.CustomMetadataValue{},
+			ExifData:              map[string]interface{}{},
+			Extension:             "jpg",
+			Height:                100,
+			Id:                    "img_1",
+			IsDirectlyDeliverable: true,
+			MimeType:              "image/jpeg",
+			OriginalFilename:      "example.jpg",
+			SizeBytes:             100,
+			Status:                "READY",
+			Width:                 100,
 		},
 	}
 }
@@ -44,7 +46,7 @@ func TestImageURLBuildsTransformedURL(t *testing.T) {
 		t.Fatalf("build image url: %v", err)
 	}
 
-	expected := "https://cdn.imgwire.dev/example.jpg@thumbnail?background=ffffff&height=150&rotate=90&width=150"
+	expected := "https://cdn.imgwire.dev/example@thumbnail?background=ffffff&height=150&rotate=90&width=150"
 	if url != expected {
 		t.Fatalf("unexpected url %q", url)
 	}
@@ -63,7 +65,22 @@ func TestImageURLOmitsFalseEnlargeAndNormalizesBooleans(t *testing.T) {
 		t.Fatalf("build image url: %v", err)
 	}
 
-	expected := "https://cdn.imgwire.dev/example.jpg?strip_metadata=true"
+	expected := "https://cdn.imgwire.dev/example?strip_metadata=true"
+	if url != expected {
+		t.Fatalf("unexpected url %q", url)
+	}
+}
+
+func TestImageURLAcceptsAutoFormat(t *testing.T) {
+	image := makeImage()
+	format := imgwire.FormatAuto
+
+	url, err := image.URL(imgwire.ImageURLOptions{Format: &format})
+	if err != nil {
+		t.Fatalf("build image url: %v", err)
+	}
+
+	expected := "https://cdn.imgwire.dev/example?format=auto"
 	if url != expected {
 		t.Fatalf("unexpected url %q", url)
 	}
